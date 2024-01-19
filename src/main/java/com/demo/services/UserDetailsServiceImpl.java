@@ -16,7 +16,7 @@ import com.demo.models.UserEntity;
 import com.demo.repositories.UserRepository;
 
 @Service
-public class UserDetailsSerivceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Autowired
     private UserRepository userRepository;

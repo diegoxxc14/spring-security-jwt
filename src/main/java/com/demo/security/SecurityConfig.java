@@ -11,8 +11,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.demo.security.filters.JwtAuthenticationFilter;
+import com.demo.security.filters.JwtAuthorizationFilter;
 import com.demo.security.jwt.JwtUtils;
 
 @Configuration
@@ -24,6 +26,9 @@ public class SecurityConfig {
     @Autowired
     UserDetailsService userDetailsService;
     
+    @Autowired
+    private JwtAuthorizationFilter authorizationFilter;
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
 
@@ -41,6 +46,7 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             })
             .addFilter(jwtAuthenticationFilter)
+            .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
 
